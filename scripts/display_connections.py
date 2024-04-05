@@ -100,6 +100,7 @@ def fetch_and_display_connections(epd, draw):
     text_image = Image.new('1', (image.height, image.width), 255)  # White background
     text_draw = ImageDraw.Draw(text_image)
     
+    text_draw.text((1, 1), ".", fill=0)
     # Iterate over connections to draw text on the blank image
     for connection in connections:
         number = connection["number"]
