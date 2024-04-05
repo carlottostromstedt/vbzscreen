@@ -99,39 +99,35 @@ def fetch_and_display_connections(epd, draw):
 
     text_image = Image.new('1', (image.height, image.width), 255)  # White background
     text_draw = ImageDraw.Draw(text_image)
-
-    text_draw.text((0, -20), "", fill=0)
+    
+    # Iterate over connections to draw text on the blank image
     for connection in connections:
-      draw.rectangle((0, 0, image.width, image.height), fill=0)  # Clear screen
+        number = connection["number"]
+        departure = connection["stop"]["prognosis"]["departure"]
+        destination = connection["to"]
+        destination = remove_zurich(destination)
 
-      number = connection["number"]
-      departure = connection["stop"]["prognosis"]["departure"]
-      destination = connection["to"]
-      destination = remove_zurich(destination)
+        if number == None:
+            number = "N"
 
-      if number == None:
-          number = "N"
+        if departure != None:
+            minutes_to_departure = departure_to_minutes(departure)
+        else:
+            minutes_to_departure = departure_to_minutes(connection["stop"]["departure"])
 
-      if departure != None:
-        minutes_to_departure = departure_to_minutes(departure)
-      else:
-        minutes_to_departure = departure_to_minutes(connection["stop"]["departure"])
+        # Draw text on the blank image
+        text_draw.text((x, y), f"{number} {destination}", font=font, fill=0)  # Black text
+        text_draw.text((270, y), f"{minutes_to_departure}", font=font, fill=0)  # Black text
+        y = y + 24
 
-      # Rotate text by 90 degrees using transform
-      text_draw.text((x, y), f"{number} {destination}", font = font, fill=0)  # Black text
+    # Rotate the text image and paste it onto the main image
+    rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
+    image.paste(rotated_text_image)
 
-      text_draw.text((270, y), f"{minutes_to_departure}", font = font, fill=0)  # Black text
+    epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
 
-      rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
-
-      # Paste rotated text onto main image
-      image.paste(rotated_text_image)
-
-      epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
-
-      y = y + 24
-      logging.info(f"Displaying: Tram {number} to {destination}, Departure: {departure}")
-
+    logging.info("All lines displayed simultaneously")
+     
   except requests.exceptions.RequestException as err:
     logging.error("Error fetching data:", err)
 
