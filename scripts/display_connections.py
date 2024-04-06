@@ -25,6 +25,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.DEBUG)
 flag_t = 1
 refresh_counter = 0
+counter = 0
 
 import requests
 import json
@@ -125,12 +126,16 @@ def fetch_and_display_connections(epd, draw):
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
     image.paste(rotated_text_image)
 
-    epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
-    epd.display_Partial_Wait(epd.getbuffer(image))
-    epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
-    epd.display_Partial_Wait(epd.getbuffer(image)) 
-    epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
-    epd.display_Partial_Wait(epd.getbuffer(image)) 
+    if counter > 0:
+        epd.display_Partial_Wait(epd.getbuffer(image))
+        logging.info("Displaying one time")
+    else:
+        for i in range(6):
+            epd.display_Partial_Wait(epd.getbuffer(image))
+        logging.info("Displaying 6 times")# Update screen
+   
+    counter += 1
+
     logging.info("All lines displayed simultaneously")
      
   except requests.exceptions.RequestException as err:
@@ -158,12 +163,15 @@ draw = ImageDraw.Draw(image)
 
 while True:
   try:
-    fetch_and_display_connections(epd, draw)
-    time.sleep(60)  # Update every minute
-
     if refresh_counter == 5:
+        fetch_and_display_connections(epd, draw)
+        time.sleep(55) 
         epd.Clear(0xFF)
-        refresh_counter = 0;
+        counter = 0
+        refresh_counter = 0
+    else:
+        fetch_and_display_connections(epd, draw)
+        time.sleep(60) 
 
     refresh_counter += 1
 
