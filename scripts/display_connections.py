@@ -82,7 +82,7 @@ def remove_zurich(input_string):
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
 
-URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=4"
+URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=5"
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
