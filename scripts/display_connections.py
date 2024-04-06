@@ -159,7 +159,7 @@ draw = ImageDraw.Draw(image)
 
 while True:
   try:
-    if refresh_counter ==  2:
+    if refresh_counter ==  6:
         counter = 0
         refresh_counter = 0
         fetch_and_display_connections(epd, draw, counter)
