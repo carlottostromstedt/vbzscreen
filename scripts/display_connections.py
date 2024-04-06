@@ -126,7 +126,7 @@ def fetch_and_display_connections(epd, draw):
     image.paste(rotated_text_image)
 
     epd.display_Partial_Wait(epd.getbuffer(image))  # Update screen
-
+    epd.display_Partial_Wait(epd.getbuffer(image)) 
     logging.info("All lines displayed simultaneously")
      
   except requests.exceptions.RequestException as err:
