@@ -174,6 +174,5 @@ while True:
 
   except KeyboardInterrupt:
     logging.info("Stopping program...")
-    epd.Clear(0xFF)
     epd.sleep()  # Put display to sleep
     break
