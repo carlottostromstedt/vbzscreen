@@ -162,11 +162,12 @@ draw = ImageDraw.Draw(image)
 while True:
   try:
     if refresh_counter == 1:
-        fetch_and_display_connections(epd, draw, counter)
-        time.sleep(60) 
         epd.Clear(0xFF)
         counter = 0
         refresh_counter = 0
+        fetch_and_display_connections(epd, draw, counter)
+        time.sleep(55) 
+
     else:
         fetch_and_display_connections(epd, draw, counter)
         time.sleep(60) 
