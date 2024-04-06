@@ -86,7 +86,7 @@ URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=4"
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
-def fetch_and_display_connections(epd, counter, draw):
+def fetch_and_display_connections(epd, draw, counter):
   try:
     logging.info("Fetching connections from API...")
     response = requests.get(URL)
