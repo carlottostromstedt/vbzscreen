@@ -130,7 +130,7 @@ def fetch_and_display_connections(epd, draw, counter):
         epd.display_Partial_Wait(epd.getbuffer(image))
         logging.info("Displaying one time")
     else:
-        for i in range(6):
+        for i in range(7):
             epd.display_Partial_Wait(epd.getbuffer(image))
         logging.info("Displaying 6 times")# Update screen
 
@@ -161,7 +161,7 @@ draw = ImageDraw.Draw(image)
 
 while True:
   try:
-    if refresh_counter == 1:
+    if refresh_counter == 5:
         epd.Clear(0xFF)
         counter = 0
         refresh_counter = 0
