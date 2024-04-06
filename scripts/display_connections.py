@@ -163,7 +163,7 @@ while True:
   try:
     if refresh_counter == 1:
         fetch_and_display_connections(epd, draw, counter)
-        time.sleep(55) 
+        time.sleep(60) 
         epd.Clear(0xFF)
         counter = 0
         refresh_counter = 0
