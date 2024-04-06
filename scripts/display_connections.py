@@ -149,7 +149,6 @@ ICNT_Old = icnt86.ICNT_Development()
 logging.info("init and Clear")
 epd.init()
 tp.ICNT_Init()
-epd.Clear(0xFF)
 
 t1 = threading.Thread(target = pthread_irq)
 t1.setDaemon(True)
