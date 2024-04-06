@@ -86,7 +86,7 @@ URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=4"
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
-def fetch_and_display_connections(epd, draw):
+def fetch_and_display_connections(epd, counter, draw):
   try:
     logging.info("Fetching connections from API...")
     response = requests.get(URL)
@@ -133,8 +133,6 @@ def fetch_and_display_connections(epd, draw):
         for i in range(6):
             epd.display_Partial_Wait(epd.getbuffer(image))
         logging.info("Displaying 6 times")# Update screen
-   
-    counter += 1
 
     logging.info("All lines displayed simultaneously")
      
@@ -164,15 +162,16 @@ draw = ImageDraw.Draw(image)
 while True:
   try:
     if refresh_counter == 5:
-        fetch_and_display_connections(epd, draw)
+        fetch_and_display_connections(epd, draw, counter)
         time.sleep(55) 
         epd.Clear(0xFF)
         counter = 0
         refresh_counter = 0
     else:
-        fetch_and_display_connections(epd, draw)
+        fetch_and_display_connections(epd, draw, counter)
         time.sleep(60) 
 
+    counter += 1
     refresh_counter += 1
 
   except KeyboardInterrupt:
