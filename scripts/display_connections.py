@@ -173,11 +173,11 @@ while True:
         counter = 0
         refresh_counter = 0
         fetch_and_display_connections(epd, draw, counter)
-        time.sleep(55) 
+        time.sleep(25) 
 
     else:
         fetch_and_display_connections(epd, draw, counter)
-        time.sleep(60) 
+        time.sleep(30) 
 
     counter += 1
     refresh_counter += 1
