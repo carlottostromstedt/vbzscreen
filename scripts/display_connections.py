@@ -103,7 +103,7 @@ def fetch_and_display_connections(epd, draw, counter):
 
     connections = data["stationboard"]
 
-    connections_sorted = sorted(connections, key=lambda x: x.get("stop", {}).get("prognosis", {}).get("departure"))
+    connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
 
     x = 20
     y = 12
