@@ -94,6 +94,7 @@ def fetch_and_display_connections(epd, draw, counter):
     data = json.loads(response.text)
 
     connections = data["stationboard"]
+    connections_sorted = sorted(connections, key=lambda x: x.get("stop", {}).get("prognosis", {}).get("departure"))
 
     x = 20
     y = 12
@@ -103,7 +104,7 @@ def fetch_and_display_connections(epd, draw, counter):
     
     text_draw.text((1, 1), ".", fill=0)
     # Iterate over connections to draw text on the blank image
-    for connection in connections:
+    for connection in connections_sorted:
         number = connection["number"]
         departure = connection["stop"]["prognosis"]["departure"]
         destination = connection["to"]
