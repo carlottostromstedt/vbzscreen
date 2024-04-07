@@ -68,6 +68,7 @@ def departure_to_minutes(departure_time):
         return str(rounded_time_difference) + "'"
     else:
         return chr(30)  # Character representing the tram picture
+
 def remove_zurich(input_string):
     if "Zürich" in input_string:
         # Find the index of "Zürich" in the string
@@ -79,6 +80,13 @@ def remove_zurich(input_string):
         return result
     else:
         return input_string
+
+def get_departure_time(connection):
+    prognosis = connection["stop"]["prognosis"]["departure"]
+    if prognosis is not None:
+        return prognosis
+    else:
+        return connection["stop"]["departure"]
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
 
@@ -94,6 +102,7 @@ def fetch_and_display_connections(epd, draw, counter):
     data = json.loads(response.text)
 
     connections = data["stationboard"]
+
     connections_sorted = sorted(connections, key=lambda x: x.get("stop", {}).get("prognosis", {}).get("departure"))
 
     x = 20
