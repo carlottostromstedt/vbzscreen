@@ -90,7 +90,7 @@ def get_departure_time(connection):
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
 
-URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=5"
+URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=10"
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
@@ -107,6 +107,8 @@ def fetch_and_display_connections(epd, draw, counter):
 
     x = 20
     y = 12
+
+    amount_displayed = 0
 
     text_image = Image.new('1', (image.height, image.width), 255)  # White background
     text_draw = ImageDraw.Draw(text_image)
@@ -128,10 +130,11 @@ def fetch_and_display_connections(epd, draw, counter):
             minutes_to_departure = departure_to_minutes(connection["stop"]["departure"])
 
         # Draw text on the blank image
-        if int(minutes_to_departure) > 3:
+        if int(minutes_to_departure) > 3 && amount_displayed < 5:
             text_draw.text((x, y), f"{number} {destination}", font=font, fill=0)  # Black text
             text_draw.text((270, y), f"{minutes_to_departure}", font=font, fill=0)  # Black text
             y = y + 24
+            amount_displayed += 1
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
