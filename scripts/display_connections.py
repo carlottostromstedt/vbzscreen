@@ -91,7 +91,7 @@ def get_departure_time(connection):
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
 
-URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=10"
+URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
