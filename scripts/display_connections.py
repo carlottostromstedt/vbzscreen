@@ -142,7 +142,7 @@ def fetch_and_display_connections(epd, draw, counter):
 
         if int(minutes_to_departure) > 40:
             should_sleep = True
-            amount_to_sleep = int(minutes_to_departure) * 60
+            amount_to_sleep = (int(minutes_to_departure) - 1) * 60
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
