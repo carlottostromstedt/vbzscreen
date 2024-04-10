@@ -67,7 +67,8 @@ def departure_to_minutes(departure_time):
     if rounded_time_difference > 0:
         return str(rounded_time_difference) + "'"
     else:
-        return chr(30)  # Character representing the tram picture
+        return 0
+        # return chr(30)  # Character representing the tram picture
 
 def remove_zurich(input_string):
     if "Zürich" in input_string:
