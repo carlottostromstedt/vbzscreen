@@ -134,9 +134,9 @@ def fetch_and_display_connections(epd, draw, counter):
 
         # Draw text on the blank image
         if int(minutes_to_departure) > 3 and amount_displayed < 5:
-            minutes_to_departure = str(minutes_to_departure) + "'"
+            minutes_to_departure_string = str(minutes_to_departure) + "'"
             text_draw.text((x, y), f"{number} {destination}", font=font, fill=0)  # Black text
-            text_draw.text((270, y), f"{minutes_to_departure}", font=font, fill=0)  # Black text
+            text_draw.text((270, y), f"{minutes_to_departure_string}", font=font, fill=0)  # Black text
             y = y + 24
             amount_displayed += 1
 
