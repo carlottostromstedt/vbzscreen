@@ -96,6 +96,8 @@ URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
 def fetch_and_display_connections(epd, draw, counter):
+  should_sleep = False
+  amount_to_sleep = 0
   try:
     logging.info("Fetching connections from API...")
     response = requests.get(URL)
@@ -138,6 +140,10 @@ def fetch_and_display_connections(epd, draw, counter):
             y = y + 24
             amount_displayed += 1
 
+        if int(minutes_to_departure) > 40:
+            should_sleep = True
+            amount_to_sleep = int(minutes_to_departure) * 60
+
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
     image.paste(rotated_text_image)
@@ -155,6 +161,7 @@ def fetch_and_display_connections(epd, draw, counter):
     logging.error("Error fetching data:", err)
 
   logging.info("Waiting for next update...")
+  return should_sleep, amount_to_sleep
 
 epd = epd2in9_V2.EPD_2IN9_V2()
 tp = icnt86.INCT86()
@@ -178,12 +185,18 @@ while True:
     if refresh_counter ==  6:
         counter = 0
         refresh_counter = 0
-        fetch_and_display_connections(epd, draw, counter)
-        time.sleep(25) 
+        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter)
+        if should_sleep:
+            time.sleep(time_to_sleep + 25) 
+        else:
+            time.sleep(25)
 
     else:
-        fetch_and_display_connections(epd, draw, counter)
-        time.sleep(30) 
+        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter)
+        if should_sleep:
+            time.sleep(time_to_sleep + 30) 
+        else:
+            time.sleep(30)
 
     counter += 1
     refresh_counter += 1
