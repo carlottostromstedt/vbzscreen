@@ -140,7 +140,7 @@ def fetch_and_display_connections(epd, draw, counter):
             y = y + 24
             amount_displayed += 1
 
-        if int(minutes_to_departure) > 40:
+        if int(minutes_to_departure) > 40 and amount_displayed < 5:
             should_sleep = True
             amount_to_sleep = (int(minutes_to_departure) - 1) * 60
 
