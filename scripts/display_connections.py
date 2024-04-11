@@ -100,7 +100,7 @@ def get_departure_time(connection):
         return connection["stop"]["departure"]
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
-font_time = ImageFont.truetype(os.path.join(fontdir,"Font.ttf"), 48)
+font_time = ImageFont.truetype(os.path.join(fontdir,"Font.ttc"), 48)
 
 latitude = "47.3753608"
 longitude = "8.530197"
