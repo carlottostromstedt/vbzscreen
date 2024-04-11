@@ -236,7 +236,7 @@ while True:
             time.sleep(25)
 
     else:
-        should_sleep, time_to_sleep, weather_counter, temperature, weather_description, temperature_min, temperature_max  = fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min)
+        should_sleep, time_to_sleep, weather_counter, temperature, weather_description, temperature_max, temperature_min  = fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min)
         if should_sleep:
             time.sleep(time_to_sleep + 30) 
         else:
