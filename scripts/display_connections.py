@@ -200,7 +200,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter):
     logging.error("Error fetching data:", err)
 
   logging.info("Waiting for next update...")
-  return should_sleep, amount_to_sleep
+  return should_sleep, amount_to_sleep, weather_counter
 
 epd = epd2in9_V2.EPD_2IN9_V2()
 tp = icnt86.INCT86()
@@ -224,14 +224,14 @@ while True:
     if refresh_counter ==  6:
         counter = 0
         refresh_counter = 0
-        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter, weather_counter)
+        should_sleep, time_to_sleep, weather_counter = fetch_and_display_connections(epd, draw, counter, weather_counter)
         if should_sleep:
             time.sleep(time_to_sleep + 25) 
         else:
             time.sleep(25)
 
     else:
-        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter, weather_counter)
+        should_sleep, time_to_sleep, weather_counter = fetch_and_display_connections(epd, draw, counter, weather_counter)
         if should_sleep:
             time.sleep(time_to_sleep + 30) 
         else:
