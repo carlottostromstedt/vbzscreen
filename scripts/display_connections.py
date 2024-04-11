@@ -139,7 +139,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
 
     connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
 
-    x = 20
+    x = 10
     y = 12
 
     amount_displayed = 0
@@ -147,7 +147,6 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
     text_image = Image.new('1', (image.height, image.width), 255)  # White background
     text_draw = ImageDraw.Draw(text_image)
     
-    text_draw.text((1, 1), ".", fill=0)
     # Iterate over connections to draw text on the blank image
     for connection in connections_sorted:
         number = connection["number"]
@@ -186,8 +185,8 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         logging.info(f"Weather counter: {weather_counter}")
 
     text_draw.text((220, 55), f"{int(temperature)}°C" , font=font_weather, fill=0)
-    text_draw.text((220, 80), f"{weather_description}" , font=font_weather, fill=0)
-    text_draw.text((220, 105), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
+    text_draw.text((220, 82), f"{weather_description}" , font=font_weather, fill=0)
+    text_draw.text((220, 107), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
