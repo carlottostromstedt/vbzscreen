@@ -107,11 +107,15 @@ def get_weather():
     response_weather.raise_for_status()  # Raise an exception for non-200 status codes
     data_weather = json.loads(response_weather.text)
     temperature = float(data_weather["main"]["temp"]) - 273.15
+    temperature_min = float(data_weather["main"]["temp_min"]) - 273.15
+    temperature_max = float(data_weather["main"]["temp_max"]) - 273.15
     temperature = int(temperature)
+    temperature_min = int(temperature_min)
+    temperature_max = int(temperature_max)
     description_weather = data_weather["weather"][0]["description"]
     logging.info(f"Temperature: {str(temperature)}")
     logging.info(f"Weather description: {description_weather}")
-    return temperature, description_weather
+    return temperature, description_weather, temperature_min, temperature_max
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
@@ -172,10 +176,12 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter):
     text_draw.text((230, 24), str(current_minutes), font=font, fill=0)
 
     if counter == 5 or weather_counter == 0:
-        temperature, weather_description = get_weather()
-        text_draw.text((230, 80), f"{int(temperature)}°C" , font=font, fill=0)
-        text_draw.text((230, 100), f"{weather_description}" , font=font, fill=0)
+        temperature, weather_description, temperature_min, temperature_max = get_weather()
+        text_draw.text((230, 70), f"{int(temperature)}°C" , font=font, fill=0)
+        text_draw.text((230, 90), f"{weather_description}" , font=font, fill=0)
+        text_draw.text((230, 110), f"H: {temperature_max}°C L: {int(temperature_max)}°C", font=font, fill=0)
         weather_counter += 1
+        logging.info(f"Weather counter: {weather_counter}")
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
