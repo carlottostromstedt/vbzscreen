@@ -21,11 +21,16 @@ import traceback
 import threading
 
 from datetime import datetime
+from dotenv import load_dotenv
 
 logging.basicConfig(level=logging.DEBUG)
 flag_t = 1
 refresh_counter = 0
 counter = 0
+
+load_dotenv()
+
+WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 
 import requests
 import json
@@ -91,7 +96,17 @@ def get_departure_time(connection):
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
 
+latitude = "47.3753608"
+longitude = "8.530197"
 URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
+WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
+
+response_weather = requests.get(WEATHER_URL)
+response_weather.raise_for_status()  # Raise an exception for non-200 status codes
+data_weather = json.loads(response_weather.text)
+
+print(data_weather)
+
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
