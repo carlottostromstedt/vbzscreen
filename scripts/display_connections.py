@@ -107,7 +107,12 @@ data_weather = json.loads(response_weather.text)
 
 print(data_weather)
 
-logging.info(f"{data_weather}")
+temperature = data_weather["main"]["temp"]
+description_weather = data_weather["weather"]["description"]
+
+logging.info(f"{temperature}")
+logging.info(f"{description_weather}")
+
 
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
