@@ -145,11 +145,11 @@ def fetch_and_display_connections(epd, draw, counter):
             amount_to_sleep = (int(minutes_to_departure) - 1) * 60
 
     current_hour = datetime.now().strftime("%H")
-    text_draw.text((270, y), current_hour, font=font, fill=0)  # Black text
+    text_draw.text((270, 12), current_hour, font=font, fill=0)  # Black text
 
     # Draw current minutes under the hour
     current_minutes = datetime.now().strftime("%M")
-    text_draw.text((270, y + 12), current_minutes, font=font, fill=0)
+    text_draw.text((270, 24), current_minutes, font=font, fill=0)
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
