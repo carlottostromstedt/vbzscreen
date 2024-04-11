@@ -107,10 +107,10 @@ data_weather = json.loads(response_weather.text)
 
 print(data_weather)
 
-temperature = data_weather["main"]["temp"]
+temperature = float(data_weather["main"]["temp"]) - 273.15
 description_weather = data_weather["weather"][0]["description"]
 
-logging.info(f"{temperature}")
+logging.info(f"{str(temperature)}")
 logging.info(f"{description_weather}")
 
 
