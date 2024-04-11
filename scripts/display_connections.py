@@ -100,7 +100,8 @@ def get_departure_time(connection):
         return connection["stop"]["departure"]
 
 font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
-font_weather = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 13)
+font_weather = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 14)
+font_weather2 = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 11)
 font_time = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 28)
 
 latitude = "47.3753608"
@@ -177,7 +178,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
     current_hour = datetime.now().strftime("%H") 
     current_minutes = datetime.now().strftime("%M")
 
-    text_draw.text((220, 45), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
+    text_draw.text((220, 12), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
 
     if counter == 5 or weather_counter == 0:
         temperature, weather_description, temperature_min, temperature_max = get_weather() 
@@ -186,7 +187,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
 
     text_draw.text((220, 55), f"{int(temperature)}°C" , font=font_weather, fill=0)
     text_draw.text((220, 80), f"{weather_description}" , font=font_weather, fill=0)
-    text_draw.text((220, 110), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather, fill=0)
+    text_draw.text((220, 105), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
