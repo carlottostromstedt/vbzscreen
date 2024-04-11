@@ -27,6 +27,7 @@ logging.basicConfig(level=logging.DEBUG)
 flag_t = 1
 refresh_counter = 0
 counter = 0
+weather_counter = 0
 
 load_dotenv()
 
@@ -100,7 +101,6 @@ latitude = "47.3753608"
 longitude = "8.530197"
 URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
 WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
-start_weather = 0
 
 def get_weather():
     response_weather = requests.get(WEATHER_URL)
@@ -115,7 +115,7 @@ def get_weather():
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
-def fetch_and_display_connections(epd, draw, counter):
+def fetch_and_display_connections(epd, draw, counter, weather_counter):
   should_sleep = False
   amount_to_sleep = 0
   try:
@@ -171,11 +171,11 @@ def fetch_and_display_connections(epd, draw, counter):
     current_minutes = datetime.now().strftime("%M")
     text_draw.text((230, 24), str(current_minutes), font=font, fill=0)
 
-    if counter == 5 or start_weather == 0:
+    if counter == 5 or weather_counter == 0:
         temperature, weather_description = get_weather()
         text_draw.text((230, 80), f"{int(temperature)}°C" , font=font, fill=0)
         text_draw.text((230, 100), f"{weather_description}" , font=font, fill=0)
-        start_weather += 1
+        weather_counter += 1
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
@@ -218,14 +218,14 @@ while True:
     if refresh_counter ==  6:
         counter = 0
         refresh_counter = 0
-        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter)
+        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter, weather_counter)
         if should_sleep:
             time.sleep(time_to_sleep + 25) 
         else:
             time.sleep(25)
 
     else:
-        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter)
+        should_sleep, time_to_sleep = fetch_and_display_connections(epd, draw, counter, weather_counter)
         if should_sleep:
             time.sleep(time_to_sleep + 30) 
         else:
