@@ -28,6 +28,10 @@ flag_t = 1
 refresh_counter = 0
 counter = 0
 weather_counter = 0
+temperature = 0
+weather_description = ""
+temperature_max = 0
+temperature_min = 0
 
 load_dotenv()
 
@@ -119,7 +123,7 @@ def get_weather():
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
-def fetch_and_display_connections(epd, draw, counter, weather_counter):
+def fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min):
   should_sleep = False
   amount_to_sleep = 0
   try:
@@ -176,12 +180,13 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter):
     text_draw.text((230, 24), str(current_minutes), font=font, fill=0)
 
     if counter == 5 or weather_counter == 0:
-        temperature, weather_description, temperature_min, temperature_max = get_weather()
-        text_draw.text((230, 70), f"{int(temperature)}°C" , font=font, fill=0)
-        text_draw.text((230, 90), f"{weather_description}" , font=font, fill=0)
-        text_draw.text((230, 110), f"H: {temperature_max}°C L: {int(temperature_max)}°C", font=font, fill=0)
+        temperature, weather_description, temperature_min, temperature_max = get_weather() 
         weather_counter += 1
         logging.info(f"Weather counter: {weather_counter}")
+
+    text_draw.text((230, 70), f"{int(temperature)}°C" , font=font, fill=0)
+    text_draw.text((230, 90), f"{weather_description}" , font=font, fill=0)
+    text_draw.text((230, 110), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font, fill=0)
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
@@ -200,7 +205,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter):
     logging.error("Error fetching data:", err)
 
   logging.info("Waiting for next update...")
-  return should_sleep, amount_to_sleep, weather_counter
+  return should_sleep, amount_to_sleep, weather_counter, temperature, weather_description, temperature_max, temperature_min
 
 epd = epd2in9_V2.EPD_2IN9_V2()
 tp = icnt86.INCT86()
@@ -224,14 +229,14 @@ while True:
     if refresh_counter ==  6:
         counter = 0
         refresh_counter = 0
-        should_sleep, time_to_sleep, weather_counter = fetch_and_display_connections(epd, draw, counter, weather_counter)
+        should_sleep, time_to_sleep, weather_counter, temperature, weather_description, temperature_max, temperature_min = fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min)
         if should_sleep:
             time.sleep(time_to_sleep + 25) 
         else:
             time.sleep(25)
 
     else:
-        should_sleep, time_to_sleep, weather_counter = fetch_and_display_connections(epd, draw, counter, weather_counter)
+        should_sleep, time_to_sleep, weather_counter, temperature, weather_description, temperature_min, temperature_max  = fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min)
         if should_sleep:
             time.sleep(time_to_sleep + 30) 
         else:
