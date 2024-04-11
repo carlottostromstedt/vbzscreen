@@ -101,19 +101,14 @@ longitude = "8.530197"
 URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
 WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
 
-response_weather = requests.get(WEATHER_URL)
-response_weather.raise_for_status()  # Raise an exception for non-200 status codes
-data_weather = json.loads(response_weather.text)
-
-print(data_weather)
-
-temperature = float(data_weather["main"]["temp"]) - 273.15
-description_weather = data_weather["weather"][0]["description"]
-
-logging.info(f"{str(temperature)}")
-logging.info(f"{description_weather}")
-
-
+def get_weather():
+    response_weather = requests.get(WEATHER_URL)
+    response_weather.raise_for_status()  # Raise an exception for non-200 status codes
+    data_weather = json.loads(response_weather.text)
+    temperature = float(data_weather["main"]["temp"]) - 273.15
+    temperature = int(temperature)
+    description_weather = data_weather["weather"][0]["description"]
+    return temperature, description_weather
 
 logging.basicConfig(level=logging.INFO)  # Configure logging level
 
@@ -172,6 +167,11 @@ def fetch_and_display_connections(epd, draw, counter):
     # Draw current minutes under the hour
     current_minutes = datetime.now().strftime("%M")
     text_draw.text((230, 24), str(current_minutes), font=font, fill=0)
+
+    if counter == 5:
+        temperature, weather_description = get_weather()
+        text_draw.text((230, 80), f"{int(temperature)}°C" , font=font, fill=0)
+        text_draw.text((230, 100), f"{weather_description}" , font=font, fill=0)
 
     # Rotate the text image and paste it onto the main image
     rotated_text_image = text_image.rotate(90, expand=True)  # Rotate and expand
