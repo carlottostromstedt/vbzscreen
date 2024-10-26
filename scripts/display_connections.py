@@ -184,7 +184,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
     current_hour = datetime.now().strftime("%H") 
     current_minutes = datetime.now().strftime("%M")
 
-    text_draw.text((190, 5), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
+    text_draw.text((190, 7), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
 
     if counter == 5 or weather_counter == 0:
         temperature, weather_description, temperature_min, temperature_max = get_weather() 
