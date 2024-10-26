@@ -173,7 +173,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
             minutes_to_departure_string = str(minutes_to_departure) + "'"
             text_draw.text((x, y), f"{number}", font=font, fill=0)
             text_draw.text(((x + 15), y), f"{destination}", font=font, fill=0) # Black text
-            text_draw.text((180, y), f"{minutes_to_departure_string}", font=font, fill=0)  # Black text
+            text_draw.text((175, y), f"{minutes_to_departure_string}", font=font, fill=0)  # Black text
             y = y + 24
             amount_displayed += 1
 
@@ -184,16 +184,16 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
     current_hour = datetime.now().strftime("%H") 
     current_minutes = datetime.now().strftime("%M")
 
-    text_draw.text((200, 12), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
+    text_draw.text((190, 12), f"{current_hour}:{str(current_minutes)}", font=font_time, fill=0)
 
     if counter == 5 or weather_counter == 0:
         temperature, weather_description, temperature_min, temperature_max = get_weather() 
         weather_counter += 1
         logging.info(f"Weather counter: {weather_counter}")
 
-    text_draw.text((200, 55), f"{int(temperature)}°C" , font=font_weather, fill=0)
-    text_draw.text((200, 82), f"{weather_description}" , font=font_weather, fill=0)
-    text_draw.text((200, 107), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
+    text_draw.text((190, 55), f"{int(temperature)}°C" , font=font_weather, fill=0)
+    text_draw.text((190, 82), f"{weather_description}" , font=font_weather, fill=0)
+    text_draw.text((190, 107), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
 
   # Rotate the text image by 180 degrees if the --rotate flag is set
     if args.rotate:
