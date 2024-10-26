@@ -2,8 +2,9 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-import argparse 
+import argparse  # Import argparse to handle command-line arguments
 
+# Argument parser setup
 parser = argparse.ArgumentParser(description="Display information with optional rotation")
 parser.add_argument('--rotate', action='store_true', help="Rotate text by 180 degrees")
 args = parser.parse_args()
@@ -44,6 +45,91 @@ WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 import requests
 import json
 import time
+
+def pthread_irq() :
+  print("pthread irq running")
+  while flag_t == 1 :
+    if(tp.digital_read(tp.INT) == 0) :
+      ICNT_Dev.Touch = 1
+    else :
+      ICNT_Dev.Touch = 0
+    time.sleep(0.01)
+  print("thread irq: exit")
+
+def Draw_Time(image, x, y, font1, font2):
+  Time = time.strftime("%H : %M", time.localtime())
+  Date = time.strftime("%Y - %m - %d", time.localtime())
+  imagefill=0
+  if image.mode!="1":
+    imagefill = (255, 255, 255, 255)
+  image.text((x, y), Time, font = font1, fill = imagefill)
+  image.text((x-9, y+35), Date, font = font2, fill = imagefill)
+
+def departure_to_minutes(departure_time):
+    # Parse the departure time string to a datetime object
+    departure_datetime = datetime.strptime(departure_time, "%Y-%m-%dT%H:%M:%S%z")
+
+    # Get the current time
+    current_datetime = datetime.now(departure_datetime.tzinfo)
+
+    # Calculate the time difference in minutes
+    time_difference = (departure_datetime - current_datetime).total_seconds() / 60
+
+    # Round the time difference to the nearest minute
+    rounded_time_difference = round(time_difference)
+
+    # Return the rounded time difference if greater than 0, otherwise return the character representing the tram
+    if rounded_time_difference > 0:
+        return rounded_time_difference
+    else:
+        return 0
+        # return chr(30)  # Character representing the tram picture
+
+def remove_zurich(input_string):
+    if "Zürich" in input_string:
+        # Find the index of "Zürich" in the string
+        zurich_index = input_string.find("Zürich")
+
+        # Remove "Zürich" and any following comma
+        result = input_string[:zurich_index].strip(",") + input_string[zurich_index + 6:].lstrip(",")
+
+        return result
+    else:
+        return input_string
+
+def get_departure_time(connection):
+    prognosis = connection["stop"]["prognosis"]["departure"]
+    if prognosis is not None:
+        return prognosis
+    else:
+        return connection["stop"]["departure"]
+
+font = ImageFont.load(os.path.join(fontdir, "vbz-font.pil"))
+font_weather = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 14)
+font_weather2 = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 11)
+font_time = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 28)
+
+latitude = "47.3753608"
+longitude = "8.530197"
+URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
+WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
+
+def get_weather():
+    response_weather = requests.get(WEATHER_URL)
+    response_weather.raise_for_status()  # Raise an exception for non-200 status codes
+    data_weather = json.loads(response_weather.text)
+    temperature = float(data_weather["main"]["temp"]) - 273.15
+    temperature_min = float(data_weather["main"]["temp_min"]) - 273.15
+    temperature_max = float(data_weather["main"]["temp_max"]) - 273.15
+    temperature = int(temperature)
+    temperature_min = int(temperature_min)
+    temperature_max = int(temperature_max)
+    description_weather = data_weather["weather"][0]["description"]
+    logging.info(f"Temperature: {str(temperature)}")
+    logging.info(f"Weather description: {description_weather}")
+    return temperature, description_weather, temperature_min, temperature_max
+
+logging.basicConfig(level=logging.INFO)  # Configure logging level
 
 def fetch_and_display_connections(epd, draw, counter, weather_counter, temperature, weather_description, temperature_max, temperature_min):
     should_sleep = False
@@ -111,6 +197,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         logging.error("Error fetching data:", err)
 
     return should_sleep, amount_to_sleep, weather_counter, temperature, weather_description, temperature_max, temperature_min
+
 
 epd = epd2in9_V2.EPD_2IN9_V2()
 tp = icnt86.INCT86()
