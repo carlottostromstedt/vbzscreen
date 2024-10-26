@@ -197,7 +197,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
 
   # Rotate the text image by 180 degrees if the --rotate flag is set
     if args.rotate:
-        rotated_text_image = text_image.rotate(180, expand=True)  # Rotate by 180 degrees
+        rotated_text_image = text_image.rotate(270, expand=True)  # Rotate by 180 degrees
     else:
         rotated_text_image = text_image.rotate(90, expand=True)  # Original 90-degree rotation
 
