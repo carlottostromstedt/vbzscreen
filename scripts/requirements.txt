@@ -1,6 +1,6 @@
 gpiozero==1.6.2
-Pillow==8.1.2i
+Pillow==8.1.2
 python-dateutil==2.9.0.post0
 requests==2.25.1
-numpy==1.19.5i
+numpy==2.1.2
 smbus2==0.4.3
