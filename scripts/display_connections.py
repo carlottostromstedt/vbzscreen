@@ -137,14 +137,19 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
   amount_to_sleep = 0
   try:
     logging.info("Fetching connections from API...")
-    connections = []
+    connections = ""
+    stop_index = 0
 
     for stop in stops:
       URL = f"http://transport.opendata.ch/v1/stationboard?station={stop}&limit=15"
       response = requests.get(URL)
       response.raise_for_status()  # Raise an exception for non-200 status codes
       data = json.loads(response.text)
-      connections.append(data["stationboard"])
+      if stop_index == 0:
+        connections = data["stationboard"]
+      else:
+        connections.append(data["stationboard"])
+      stop_index += 1
 
     connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
 
