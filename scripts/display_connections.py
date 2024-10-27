@@ -149,6 +149,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         connections = data["stationboard"]
       else:
         connections.append(data["stationboard"])
+      print(type(connections))
       stop_index += 1
 
     connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
