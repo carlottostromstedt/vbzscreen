@@ -112,7 +112,7 @@ font_time = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 28)
 
 latitude = "47.3753608"
 longitude = "8.530197"
-URL = "http://transport.opendata.ch/v1/stationboard?station=Stauffacher&limit=15"
+stops = ["Schaffhauserplatz", "Langmauerstrasse"]
 WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
 
 def get_weather():
@@ -137,11 +137,14 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
   amount_to_sleep = 0
   try:
     logging.info("Fetching connections from API...")
-    response = requests.get(URL)
-    response.raise_for_status()  # Raise an exception for non-200 status codes
-    data = json.loads(response.text)
+    connections = []
 
-    connections = data["stationboard"]
+    for stop in stops:
+      URL = f"http://transport.opendata.ch/v1/stationboard?station={stop}&limit=15"
+      response = requests.get(URL)
+      response.raise_for_status()  # Raise an exception for non-200 status codes
+      data = json.loads(response.text)
+      connections.append(data["stationboard"])
 
     connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
 
