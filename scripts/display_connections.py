@@ -147,8 +147,12 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
       data = json.loads(response.text)
       if stop_index == 0:
         connections = data["stationboard"]
+        print(connections)
+        print(type(connections))
       else:
         connections.append(data["stationboard"])
+        print(connections)
+        print(type(connections))
       print(type(connections))
       stop_index += 1
 
