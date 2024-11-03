@@ -147,13 +147,8 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
       data = json.loads(response.text)
       if stop_index == 0:
         connections = data["stationboard"]
-        print(connections[0])
-        print(type(connections))
       else:
         connections.extend(data["stationboard"])
-        print(connections)
-        print(type(connections))
-      print(type(connections))
       stop_index += 1
 
     connections_sorted = sorted(connections, key=lambda x: get_departure_time(x))  
