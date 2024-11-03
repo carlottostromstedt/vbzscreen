@@ -46,6 +46,7 @@ STOPS_ARRAY = os.getenv('STOPS_ARRAY')
 ROTATE_SCREEN = os.getenv('ROTATE_SCREEN')
 LOCATION_LONGITUDE = os.getenv('LOCATION_LONGITUDE')
 LOCATION_LATITUDE = os.getenv('LOCATION_LATITUDE')
+MINUTES_TO_DEPARTURE_LIMIT = os.getenv('MINUTES_TO_DEPARTURE_LIMIT')
 
 import requests
 import json
@@ -181,7 +182,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
             minutes_to_departure = departure_to_minutes(connection["stop"]["departure"])
 
         # Draw text on the blank image
-        if int(minutes_to_departure) > 3 and amount_displayed < 5:
+        if int(minutes_to_departure) > MINUTES_TO_DEPARTURE_LIMIT and amount_displayed < 5:
             minutes_to_departure_string = str(minutes_to_departure) + "'"
             text_draw.text((x, y), f"{number}", font=font, fill=0)
             if "N" in number: 
