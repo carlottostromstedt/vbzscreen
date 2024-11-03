@@ -185,7 +185,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         if int(minutes_to_departure) > 3 and amount_displayed < 5:
             minutes_to_departure_string = str(minutes_to_departure) + "'"
             text_draw.text((x, y), f"{number}", font=font, fill=0)
-            text_draw.text(((x + 15), y), f"{destination}", font=font, fill=0) # Black text
+            text_draw.text(((x + 20), y), f"{destination}", font=font, fill=0) # Black text
             text_draw.text((170, y), f"{minutes_to_departure_string}", font=font, fill=0)  # Black text
             y = y + 24
             amount_displayed += 1
