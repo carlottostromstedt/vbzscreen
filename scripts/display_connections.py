@@ -207,9 +207,9 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         weather_counter += 1
         logging.info(f"Weather counter: {weather_counter}")
 
-    text_draw.text((190, 50), f"{int(temperature)}°C" , font=font_weather, fill=0)
-    text_draw.text((190, 77), f"{weather_description}" , font=font_weather, fill=0)
-    text_draw.text((190, 102), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
+    text_draw.text((190, 55), f"{int(temperature)}°C" , font=font_weather, fill=0)
+    text_draw.text((190, 80), f"{weather_description}" , font=font_weather, fill=0)
+    text_draw.text((190, 105), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
 
   # Rotate the text image by 180 degrees if the --rotate flag is set
     if args.rotate:
