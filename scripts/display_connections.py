@@ -150,7 +150,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
         print(connections[0])
         print(type(connections))
       else:
-        connections.append(data["stationboard"])
+        connections.extend(data["stationboard"])
         print(connections)
         print(type(connections))
       print(type(connections))
