@@ -44,6 +44,8 @@ load_dotenv()
 WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 STOPS_ARRAY = os.getenv('STOPS_ARRAY')
 ROTATE_SCREEN = os.getenv('ROTATE_SCREEN')
+LOCATION_LONGITUDE = os.getenv('LOCATION_LONGITUDE')
+LOCATION_LATITUDE = os.getenv('LOCATION_LATITUDE')
 
 import requests
 import json
@@ -112,8 +114,8 @@ font_weather = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 14)
 font_weather2 = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 11)
 font_time = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 28)
 
-latitude = "47.3753608"
-longitude = "8.530197"
+latitude = f"{LOCATION_LATITUDE}"
+longitude = f"{LOCATION_LONGITUDE}"
 stops = STOPS_ARRAY.split(",")
 WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
 
