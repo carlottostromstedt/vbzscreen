@@ -42,6 +42,8 @@ temperature_min = 0
 load_dotenv()
 
 WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+STOPS_ARRAY = os.getenv('STOPS_ARRAY')
+ROTATE_SCREEN = os.getenv('ROTATE_SCREEN')
 
 import requests
 import json
@@ -112,7 +114,7 @@ font_time = ImageFont.truetype(os.path.join(fontdir,"Roboto-Bold.ttf"), 28)
 
 latitude = "47.3753608"
 longitude = "8.530197"
-stops = ["Schaffhauserplatz", "Langmauerstrasse"]
+stops = STOPS_ARRAY.split(",")
 WEATHER_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
 
 def get_weather():
@@ -206,8 +208,7 @@ def fetch_and_display_connections(epd, draw, counter, weather_counter, temperatu
     text_draw.text((190, 81), f"{weather_description}" , font=font_weather, fill=0)
     text_draw.text((190, 107), f"H: {temperature_max}°C L: {int(temperature_min)}°C", font=font_weather2, fill=0)
 
-  # Rotate the text image by 180 degrees if the --rotate flag is set
-    if args.rotate:
+    if ROTATE_SCREEN:
         rotated_text_image = text_image.rotate(270, expand=True)  # Rotate by 180 degrees
     else:
         rotated_text_image = text_image.rotate(90, expand=True)  # Original 90-degree rotation
